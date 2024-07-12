@@ -15,8 +15,8 @@ def arbol_un_nodo():
 @pytest.fixture
 def arbol_tres_nodos():
     tree = ArbolBinario.crear_nodo(1)
-    tree.raiz.si = ArbolBinario.crear_nodo(2)
-    tree.raiz.sd = ArbolBinario.crear_nodo(3)
+    tree.insertar_si(ArbolBinario.crear_nodo(2))
+    tree.insertar_sd(ArbolBinario.crear_nodo(3))
     return tree
 
 
