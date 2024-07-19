@@ -1045,8 +1045,195 @@ En Python, todas las excepciones heredan de la clase [`BaseException`](https://d
 
 > Si deseamos definir nuestras **propias excepciones**, debemos heredar explícitamente desde `BaseException` o alguna de sus subclases. En particular, **se recomienda heredar de la clase `Exception`**.
 
+## Documentando código
+Hemos visto que la documentación del código es una parte esencial del desarrollo de software, ya que facilita la comprensión y el mantenimiento del código. En Python, hay varias maneras de documentar el código como bloques de comentarios, comentarios en línea, _docstrings_ y herramientas automatizadas para generar documentación. Otra alternativa **recomendada para documentar código** es la adopción de [Type Hints](../B_Python_Type_Hints/README.md).
 
+Recordemos algunos tips sobre cómo y cuándo documentar código de Uncle Bob:
+- **Explicarse mejor con código**: Evitar comentarios redundantes que no agregan información y escribir código que sea fácil de interpretar.
+- **Aclarar la intención**: Comentar la razón por la cual se escribió cierto código, no especificar qué es lo que hace (eso debería hacerse para documentar la interfaz pública).
+- **Agregar advertencias**: Especificar potenciales riesgos asociados al código.
+- **TODO**: Son válidos los comentarios que indican que hay algo pendiente por hacer.
+- **Documentar API (pública)**: Especificar la funcionalidad del módulo, paquete, función, etc. para dar información a quienes los consumen. En Python para esto podemos utilizar [_docstrings_](#docstrings).
+- **No dejar código comentado!!**
 
+### Comentarios
+
+Recordemos que un bloque de comentario se realiza colocando el símbolo `#` antes del comentario.
+
+```python
+# Esto es un bloque de comentario.
+#
+# Seguido de otro párrafo para comentar.
+x = 15  # Asigna el valor 15 a la variable x (comentario en línea).
+```
+Veamos algunas recomendaciones sobre los comentarios en Python descritas en [PEP-8](https://peps.python.org/pep-0008/#comments):
+- Siempre mantener los comentarios actualizados a lo que hace el código y que no lo contradigan.
+- Deben ser oraciones y comenzar en mayúscula (a menos que sea un identificador).
+- Los bloques de código suelen ser párrafos con varias oraciones que terminan en punto. Los párrafos se separan con una línea que sólo contiene un `#`.
+- Se suele recomendar comentar en inglés.
+- Utilizar lo menos posible comentarios en línea.
+- Los comentarios deben tener un máximo de 72 caracteres.
+
+### _Docstrings_
+
+Las _docstrings_ son una forma estándar de documentar módulos, clases y funciones en Python. Se escriben como **cadenas de texto y se colocan justo después de la definición** de un módulo, clase o función a documentar. **Se utilizan para documentar el código que sigue** y tienen como objetivo ofrecer **documentación relevante a quienes consumen** nuestros objetos. Se especifican en la [PEP-257](https://peps.python.org/pep-0257/).
+
+> La _docstring_ se convierte en el atributo especial `__doc__ ` del objeto, por lo cual puede visualizarse directamente con la función nativa [`help()`](https://docs.python.org/3/library/functions.html#help).
+
+Por ejemplo, podríamos consultar la documentación asociada a la clase `list` así:
+
+```python
+>>> help(list)
+Help on class list in module builtins:
+
+class list(object)
+ |  list(iterable=(), /)
+ |
+ |  Built-in mutable sequence.
+ |
+ |  If no argument is given, the constructor creates a new empty list.
+ |  The argument must be an iterable if specified.
+ |
+ |  Methods defined here:
+ |
+ |  __add__(self, value, /)
+ |      Return self+value.
+ |
+-- More  --
+```
+Esta información que muestra `help()` provee de varias fuentes, pero una de ellas es el atributo `__doc__`, lo cual se puede corroborar si ejecutamos `print(list.__doc__)`.
+
+Una _docstring_ es una cadena literal **única** ubicada al principio de la definición, encerrada en comillas triples (`"""`) o apóstrofes triples (`'''`), aunque **se recomienda utilizar siempre comillas**. Debe describir de forma concisa el propósito y cómo se consume lo documentado.
+
+Podemos definir una _docstring_ **en una única línea**, para casos obvios donde no se requiere redundar en demasiada documentación.
+
+```python
+def fit(X: list[float]) -> None:
+    """Ajusta el modelo a partir de los datos de entrenamiento."""
+    ...
+```
+También podemos definirla **en varias líneas** para incorporar mayor información relevante.
+
+```python
+class DecisionTreeClassifier:
+    """Modelo predictivo clasificador basado en un árbol de decisión.
+    
+    Modelo predictivo que permite clasificar observaciones a partir de un
+    árbol de decisión ajustado sobre datos de entrenamiento con diferentes
+    algoritmos soportados.
+    """
+    ...
+```
+En ese caso, la primera línea del docstring debe ser un resumen breve, **seguida de una línea en blanco**, y luego una descripción más detallada.
+
+El contenido de una _docstring_ variará según qué estamos documentando, pero la especificación nos ofrece algunas recomendaciones:
+| ¿Qué estamos documentando? | Descripción de documentación |
+| --------------------- | ---------------------------- |
+| Script | El mensaje de uso (_usage_) del script que suele mostrarse al ejecutar el script con el argumento `-h`. Suele describirse la funcionalidad general y los argumentos posibles a pasarle. |
+| Módulo | Generalmente se enumeran las clases, excepciones, funciones, etc. que exporta el módulo, con una muy breve descripción de cada una. |
+| Paquete | Definido en el `__init__.py`, enumera los módulos y subpaquetes que exporta. |
+| Función | Resumen del comportamiento de la operación y descripción de sus parámetros, retorno, efectos colaterales, excepciones que puede lanzar, precondiciones, etc. |
+| Clase | Resumen de la abstracción modelada con su estructura (atributos) y comportamiento (métodos), evitando aquellos que no son parte de la interfaz pública. Puede incluir descripción de uso para facilitar la comprensión a quienes la consumen. |
+
+#### Formatos de _dcostrings_
+Existen varios **formatos** populares para escribir _docstrings_, lo cual nos permitirá luego utilizar librerías para generar automáticamente documentación y visualizarla de una forma más amigable y exportable. De forma nativa Python ofrece el módulo [pydoc](https://docs.python.org/3/library/pydoc.html) para generar documentación en forma de text en consola o páginas html para publicar en una web.
+
+> Otra de estas librerías que nos facilitan la generación de documentación es [Sphynx](https://www.sphinx-doc.org/en/master/).
+
+1. **Docstrings de Google**
+
+El formato de [_docstrings_ de Google](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) es uno de los más populares y ampliamente utilizados en la comunidad.
+
+```python
+def suma_numeros(a: int, b: int) -> int:
+    """Suma dos números.
+    
+    Args:
+        a: El primer número.
+        b: El segundo número.
+    
+    Returns:
+        La suma de a y b.
+    
+    Raises:
+        TypeError: Si a o b no son enteros.
+    """
+    return a + b
+```
+
+2. **Docstrings de NumPy**
+
+El formato de [_docstrings_ de NumPy](https://numpydoc.readthedocs.io/en/latest/format.html) es similar al formato de Google, pero con algunas diferencias en la estructura y la sintaxis.
+
+```python
+def suma_numeros(a: int, b: int) -> int:
+    """Suma dos números.
+    
+    Parameters
+    ----------
+    a : int
+        El primer número.
+    b : int
+        El segundo número.
+    
+    Returns
+    -------
+    int
+        La suma de a y b.
+    
+    Raises
+    ------
+    TypeError
+        Si a o b no son enteros.
+    """
+    return a + b
+```
+
+3. **Docstrings de reStructuredText**
+
+El formato de [_docstrings_ de reStructuredText](https://docutils.sourceforge.io/rst.html) (_reST_) es un formato más flexible y potente que los previos y es el recomendado en la [PEP-287](https://peps.python.org/pep-0287/).
+
+```python
+def suma_numeros(a: int, b: int) -> int:
+    """Suma dos números.
+    
+    :param a: El primer número.
+    :type a: int
+    :param b: El segundo número.
+    :type b: int
+    
+    :returns: La suma de a y b.
+    :rtype: int
+    
+    :raises: TypeError
+        Si a o b no son enteros.
+    """
+    return a + b
+```
+
+4. **Docstrings de Epytext**
+
+El formato de [_docstrings_ de Epytext](https://epydoc.sourceforge.net/epytext.html) es un formato más antiguo que puede utilizarse con [`epydoc`](https://pypi.org/project/epydoc/). Se basa en el estilo de **_javadoc_**, por lo cual es una opción interesante para quienes desarrollaron en Java.
+
+```python
+def suma_numeros(a: int, b: int) -> int:
+    """Suma dos números.
+    
+    @param a: El primer número.
+    @type a: int
+    @param b: El segundo número.
+    @type b: int
+    
+    @return: La suma de a y b.
+    @rtype: int
+    
+    @raises: TypeError
+        Si a o b no son enteros.
+    """
+    return a + b
+```
+
+En conclusión, lo importante es tener presente que documentar el código es de gran utilidad, sea con _hints_, comentarios, _docstrings_, o mejor aún, una combinación de ellas. Respecto a las _docstrings_, cada formato tiene sus propias características y ventajas, y la elección del formato adecuado dependerá del proyecto y de las necesidades específicas. Al utilizar un formato de _docstrings_ consistente, podemos lograr que nuestro código sea más fácil de interpretar y mantener.
 
 > **Lectura de interés**: 
 > - [Python Documentation](https://docs.python.org/3/contents.html)
