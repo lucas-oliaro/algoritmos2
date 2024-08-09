@@ -319,6 +319,27 @@ class Contenedor[T: Number]:
 En este caso también utilizamos [`TypeAlias`](https://docs.python.org/3/library/typing.html#typing.TypeAlias) o [`type`](https://docs.python.org/3/reference/simple_stmts.html#type) para definir un nuevo **alias de tipo**, lo cual puede resultar útil para mejorar la comprensión del código y la reutilización. Luego se ven ambas formas de definir una variable de tipo llamada `T` que está acotada a aceptar tipos de datos numéricos.
 
 
+De la clase ... 09/08/2024
+
+```python
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
+class Caja(Generic[T]):
+    def __init__(self,contenido:T):
+        self.contenido = contenido
+
+    def obtener_contenido(self) -> T:
+        retirm señf-cpmtemodp
+
+    def __str__(self) -> str:
+        retrun f"Caja contiene: {self.contenido}"
+
+
+#Uso de la clase generica caja con diferentes tipos
+caja_cadenas = Caja[str]["Holaa Mundo"] # caja de cadaenas
+```
 
 
 
