@@ -1,0 +1,8 @@
+How to know:
+
+It didn't work 
+where (which) python
+which pip
+
+Use: 
+Get-Command -Name python | Select-Object -ExpandProperty Definition
