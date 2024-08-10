@@ -964,6 +964,8 @@ Si omitimos el inicializador o valor inicial, se utiliza el **primer elemento de
 
 Analicemos algo interesante sobre los tipos de datos de los argumentos de la función acumuladora. En ambos ejemplos vemos que la expresión lambda acumuladora acepta 2 argumentos de tipo `int` para producir uno nuevo también de tipo `int`. Lo importante aquí es comprender que el primer argumento `x` corresponde al **valor acumulado** de la reducción, mientras que el argumento `y` es el **elemento actual** de la iteración. Esto se visualiza mejor con el código análogo que se muestra en la documentación:
 
+
+
 ```python
 def reduce(function, iterable, initializer=None):
     it = iter(iterable)
