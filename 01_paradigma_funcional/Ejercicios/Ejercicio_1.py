@@ -10,7 +10,7 @@ def wrapper(f: Callable[[], None])->None:
     f()
     print("Ejecutada f()")
 
-def f():
+def f() -> None:
     pass
 
 wrapper(f)
