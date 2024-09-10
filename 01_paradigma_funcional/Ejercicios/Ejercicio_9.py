@@ -9,6 +9,8 @@
 # Idea personal
 def contar(lista : list) -> dict:
     result = dict(zip(lista,map(lambda x: lista.count(x),lista)))
+    #Uso de map en este caso: sobre x proveniente de lista aplica la funcion lista.count
+    #zip solamente genera una tupla y dict convierte las tuplas en dict
     return result
 
 
