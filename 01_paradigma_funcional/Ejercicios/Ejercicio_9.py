@@ -20,8 +20,6 @@ if __name__ == "__main__":
     print(contar(['a', 'b', 'c', 'a', 'a', 'c', 'b', 'd', 'c', 'a', 'e']))
 
 
-
-
 # %%
 
 #Solution GPT
@@ -36,3 +34,21 @@ if __name__ == "__main__":
 
 
 # %%
+#Solution with reduce Personal
+
+"""
+The reduce(fun,seq) function is used to apply a particular function passed in its 
+argument to all of the list elements mentioned in the sequence passed along.}
+This function is defined in “functools” module.
+"""
+from functools import reduce
+
+def contar3(lista: list) -> dict:
+    return reduce(lambda acumulador, x: {**acumulador, x: acumulador.get(x, 0) + 1}, lista, {})
+    # primero se genera el acumulador que es un dict vacio, luego se aplica la funcion lambda o sea x (en este caso).
+    # el cual en la primera instacia agarra al dict vacio como key y value sera la busqueda de el iterable x con su valor + 1 (caso inicial no tiene o sea 0),
+    # esto se realiza sobre el el dict (acumulador) 
+
+# Ejemplo de uso
+resultado = contar3(['a', 'b', 'c', 'a', 'a', 'c', 'b', 'd', 'c', 'a', 'e'])
+print(resultado)
